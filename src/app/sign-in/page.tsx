@@ -1,7 +1,6 @@
 "use client";
 
-//shadcn ui
-
+// shadcn ui
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,8 +14,7 @@ import { Separator } from "@/components/ui/separator";
 
 import Link from "next/link";
 
-//react icons
-import { FaGithub } from "react-icons/fa";
+// react icons
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
@@ -41,7 +39,7 @@ const SignIn = () => {
     });
     if (res?.ok) {
       router.push("/");
-      toast.success("login successful");
+      toast.success("Login successful");
     } else if (res?.status === 401) {
       setError("Invalid Credentials");
       setPending(false);
@@ -50,20 +48,18 @@ const SignIn = () => {
     }
   };
 
-  const handleProvider = (
-    event: React.MouseEvent<HTMLButtonElement>,
-    value: "github" | "google"
-  ) => {
+  const handleGoogleSignIn = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    signIn(value, { callbackUrl: "/" });
+    signIn("google", { callbackUrl: "/" });
   };
+
   return (
     <div className="h-full flex items-center justify-center bg-[#1b0918]">
       <Card className="md:h-auto w-[80%] sm:w-[420px] p-4 sm:p-8">
         <CardHeader>
           <CardTitle className="text-center">Sign in</CardTitle>
           <CardDescription className="text-sm text-center text-accent-foreground">
-            Use email or service, to sign in
+            Use email or Google to sign in
           </CardDescription>
         </CardHeader>
         {!!error && (
@@ -90,40 +86,30 @@ const SignIn = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-
             <Button className="w-full" size="lg" disabled={pending}>
-              continue
+              Continue
             </Button>
           </form>
 
           <Separator />
-          <div className="flex my-2 justify-evenly mx-auto items-center">
+          <div className="flex my-2 justify-center mx-auto items-center">
             <Button
               disabled={false}
-              onClick={() => {}}
+              onClick={handleGoogleSignIn}
               variant="outline"
               size="lg"
               className="bg-slate-300 hover:bg-slate-400 hover:scale-110"
             >
               <FcGoogle className="size-8 left-2.5 top-2.5" />
             </Button>
-            <Button
-              disabled={false}
-              onClick={(e) => handleProvider(e, "github")}
-              variant="outline"
-              size="lg"
-              className="bg-slate-300 hover:bg-slate-400 hover:scale-110"
-            >
-              <FaGithub className="size-8 left-2.5 top-2.5" />
-            </Button>
           </div>
           <p className="text-center text-sm mt-2 text-muted-foreground">
-            Create new account
+            Create a new account
             <Link
               className="text-sky-700 ml-4 hover:underline cursor-pointer"
               href="sign-up"
             >
-              Sing up{" "}
+              Sign up
             </Link>
           </p>
         </CardContent>
