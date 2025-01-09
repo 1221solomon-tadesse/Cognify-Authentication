@@ -8,6 +8,7 @@ const Home = () => {
       <SessionProvider>
         <UserButton />
       </SessionProvider>
+      solomon
     </div>
   );
 };
