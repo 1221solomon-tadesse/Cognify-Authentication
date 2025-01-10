@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -11,55 +13,86 @@ import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const UserButton = () => {
+const Navbar = ({ isLoggedIn }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
 
-  if (status === "loading") {
-    return <Loader className="size-6 mr-4 mt-4 float-right animate-spin" />;
-  }
+  const handleSignOut = async () => {
+    try {
+      await signOut({ redirect: false });
+      router.push("/");
+    } catch (error) {
+      console.error("Sign-out error:", error);
+      router.push("/");
+    }
+  };
 
   const avatarFallback = session?.user?.name?.charAt(0).toUpperCase();
-    const handleSignOut = async () => {
-        await signOut({
-            redirect: false,
-        });
-        router.push("/")
-}
+
+  const isUserLoggedIn = isLoggedIn || Boolean(session);
+
   return (
-    <nav>
-      {session ? (
+    <nav className="flex items-center justify-between p-4 bg-gray-800 text-white">
+      {/* Logo / Brand */}
+      <div className="text-2xl font-bold">
+        <Link href="/">Cognify</Link>
+      </div>
+
+      <div className="flex items-center gap-6 jus">
+        <Link href="/" className="hover:underline">
+          Home
+        </Link>
+        <Link href="/about" className="hover:underline">
+          About
+        </Link>
+        {isUserLoggedIn && (
+          <Link href="/items" className="hover:underline">
+            Items
+          </Link>
+        )}
+      </div>
+
+      {/* User Authentication / Profile */}
+      {status === "loading" ? (
+        <Loader className="size-6 animate-spin" />
+      ) : isUserLoggedIn ? (
         <DropdownMenu modal={false}>
-          <DropdownMenuTrigger className="outline-none relative float-right p-4 md:p-8">
+          <DropdownMenuTrigger className="outline-none relative">
             <div className="flex gap-4 items-center">
-              <span>{session.user?.name}</span>
+              <span>{session?.user?.name || "User"}</span>
               <Avatar className="size-10 hover:opacity-75 transition">
                 <AvatarImage
                   className="size-10 hover:opacity-75 transition"
-                  src={session.user?.image || undefined}
+                  src={session?.user?.image || undefined}
                 />
                 <AvatarFallback className="bg-sky-900 text-white">
-                  {avatarFallback}
+                  {avatarFallback || "U"}
                 </AvatarFallback>
               </Avatar>
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="center" side="bottom" className="w-50">
-            <DropdownMenuItem className="h-10" onClick={()=>handleSignOut()}>Log out</DropdownMenuItem>
+          <DropdownMenuContent
+            align="end"
+            side="bottom"
+            className="w-50 max-w-xs"
+          >
+            <DropdownMenuItem className="h-10" onClick={() => handleSignOut()}>
+              Log out
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <div className="flex justify-end p-4 gap-4">
-          <Button>
-            <Link href="sign-in">Sign in</Link>
-          </Button>
-          <Button>
-            <Link href="sign-up">Sign up</Link>
-          </Button>
+        <div className="flex gap-4">
+          <Link href="/sign-in">
+            <Button variant="primary">Sign in</Button>
+          </Link>
+          <Link href="/sign-up">
+            <Button variant="secondary">Sign up</Button>
+          </Link>
         </div>
       )}
     </nav>
   );
 };
 
-export default UserButton;
+export default Navbar;
