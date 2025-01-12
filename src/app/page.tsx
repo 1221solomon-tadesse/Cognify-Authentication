@@ -1,16 +1,11 @@
-"use client";
-import {SessionProvider} from "next-auth/react"
-import UserButton from "@/components/user-button";
-
+import React from 'react'
+import HomePage from './itemes/Home/page'
 const Home = () => {
   return (
     <div>
-      <SessionProvider>
-        <UserButton />
-      </SessionProvider>
-      solomon
+  <HomePage/>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
