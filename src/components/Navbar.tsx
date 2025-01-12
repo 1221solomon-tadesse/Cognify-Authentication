@@ -13,7 +13,7 @@ import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const Navbar = ({ isLoggedIn }) => {
+const Navbar = ({ isLoggedIn  }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
 
@@ -28,21 +28,19 @@ const Navbar = ({ isLoggedIn }) => {
   };
 
   const avatarFallback = session?.user?.name?.charAt(0).toUpperCase();
-
   const isUserLoggedIn = isLoggedIn || Boolean(session);
 
   return (
     <nav className="flex items-center justify-between p-4 bg-gray-800 text-white">
-      {/* Logo / Brand */}
       <div className="text-2xl font-bold">
         <Link href="/">Cognify</Link>
       </div>
 
-      <div className="flex items-center gap-6 jus">
+      <div className="flex items-center gap-6">
         <Link href="/" className="hover:underline">
           Home
         </Link>
-        <Link href="/about" className="hover:underline">
+        <Link href="itemes/About" className="hover:underline">
           About
         </Link>
         {isUserLoggedIn && (
@@ -52,7 +50,6 @@ const Navbar = ({ isLoggedIn }) => {
         )}
       </div>
 
-      {/* User Authentication / Profile */}
       {status === "loading" ? (
         <Loader className="size-6 animate-spin" />
       ) : isUserLoggedIn ? (
@@ -62,8 +59,8 @@ const Navbar = ({ isLoggedIn }) => {
               <span>{session?.user?.name || "User"}</span>
               <Avatar className="size-10 hover:opacity-75 transition">
                 <AvatarImage
-                  className="size-10 hover:opacity-75 transition"
                   src={session?.user?.image || undefined}
+                  alt={session?.user?.name || "User"}
                 />
                 <AvatarFallback className="bg-sky-900 text-white">
                   {avatarFallback || "U"}
@@ -76,7 +73,7 @@ const Navbar = ({ isLoggedIn }) => {
             side="bottom"
             className="w-50 max-w-xs"
           >
-            <DropdownMenuItem className="h-10" onClick={() => handleSignOut()}>
+            <DropdownMenuItem className="h-10" onClick={handleSignOut}>
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
