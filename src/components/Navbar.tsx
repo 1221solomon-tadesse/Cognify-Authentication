@@ -40,12 +40,12 @@ const Navbar = ({ isLoggedIn  }) => {
         <Link href="/" className="hover:underline">
           Home
         </Link>
-        <Link href="itemes/About" className="hover:underline">
+        <Link href="/itemes/About" className="hover:underline">
           About
         </Link>
         {isUserLoggedIn && (
-          <Link href="/items" className="hover:underline">
-            Items
+          <Link href="/itemes/Cources" className="hover:underline">
+            Catagory
           </Link>
         )}
       </div>
