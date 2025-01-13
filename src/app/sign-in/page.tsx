@@ -1,6 +1,6 @@
 "use client";
 
-// shadcn ui
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,7 +14,6 @@ import { Separator } from "@/components/ui/separator";
 
 import Link from "next/link";
 
-// react icons
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
@@ -54,8 +53,8 @@ const SignIn = () => {
   };
 
   return (
-    <div className="h-full flex items-center justify-center bg-[#1b0918]">
-      <Card className="md:h-auto w-[80%] sm:w-[420px] p-4 sm:p-8">
+    <div className="h-full flex items-center justify-center ">
+      <Card className="md:h-auto w-[80%] sm:w-[420px] p-4 sm:p-8 bg-violet-600">
         <CardHeader>
           <CardTitle className="text-center">Sign in</CardTitle>
           <CardDescription className="text-sm text-center text-accent-foreground">

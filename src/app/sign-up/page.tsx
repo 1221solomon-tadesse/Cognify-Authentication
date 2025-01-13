@@ -1,7 +1,6 @@
 "use client";
 
-//shadcn ui
-
+// shadcn ui
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,15 +13,11 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
 import Link from "next/link";
-
-//react icons
-import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { TriangleAlert } from "lucide-react";
-import { signIn } from "next-auth/react";
+import { signIn } from "next-auth/react"; 
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -32,53 +27,66 @@ const SignUp = () => {
     confirmPassword: "",
   });
   const [pending, setPending] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setPending(true);
 
-    const res = await fetch("/api/auth/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    const data = await res.json();
+    // Ensure passwords match
+    if (form.password !== form.confirmPassword) {
+      setError("Passwords do not match");
+      setPending(false);
+      return;
+    }
 
-    if (res.ok) {
-      setPending(false);
-      toast.success(data.message);
-      router.push("/sign-in");
-    } else if (res.status === 400) {
-      setError(data.message);
-      setPending(false);
-    } else if (res.status === 500) {
-      setError(data.message);
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        toast.success(data.message || "Account created successfully!");
+        router.push("/sign-in");
+      } else {
+        setError(data.message || "Failed to create an account.");
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
       setPending(false);
     }
   };
 
-  const handleProvider = (
-    event: React.MouseEvent<HTMLButtonElement>,
-    value: "github" | "google"
+  const handleGoogleSignIn = async (
+    event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
-    signIn(value, { callbackUrl: "/" });
+
+    try {
+      await signIn("google", { callbackUrl: "/" });
+    } catch (err) {
+      toast.error("Google sign-in failed. Please try again.");
+    }
   };
+
   return (
-    <div className="h-full flex items-center justify-center bg-[#1b0918]">
-      <Card className="md:h-auto w-[80%] sm:w-[420px] p-4 sm:p-8">
+    <div className="h-full flex items-center justify-center">
+      <Card className="md:h-auto w-[80%] sm:w-[420px] p-4 sm:p-8 bg-violet-600">
         <CardHeader>
           <CardTitle className="text-center">Sign up</CardTitle>
           <CardDescription className="text-sm text-center text-accent-foreground">
-            Use email or service, to create account
+            Use email or Google to create an account
           </CardDescription>
         </CardHeader>
         {!!error && (
-          <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6">
-            <TriangleAlert />
-            <p>{error}</p>
+          <div className="bg-red-200 text-red-800 p-3 rounded-md text-sm mb-6">
+            {error}
           </div>
         )}
         <CardContent className="px-2 sm:px-6">
@@ -94,7 +102,7 @@ const SignUp = () => {
             <Input
               type="email"
               disabled={pending}
-              placeholder="email"
+              placeholder="Email"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
@@ -102,7 +110,7 @@ const SignUp = () => {
             <Input
               type="password"
               disabled={pending}
-              placeholder="password"
+              placeholder="Password"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               required
@@ -110,7 +118,7 @@ const SignUp = () => {
             <Input
               type="password"
               disabled={pending}
-              placeholder="confirm password"
+              placeholder="Confirm Password"
               value={form.confirmPassword}
               onChange={(e) =>
                 setForm({ ...form, confirmPassword: e.target.value })
@@ -118,38 +126,27 @@ const SignUp = () => {
               required
             />
             <Button className="w-full" size="lg" disabled={pending}>
-              continue
+              {pending ? "Creating Account..." : "Sign Up"}
             </Button>
           </form>
 
           <Separator />
-          <div className="flex my-2 justify-evenly mx-auto items-center">
+          <div className="flex justify-center mt-4">
             <Button
-              disabled={false}
-              onClick={() => {}}
+              disabled={pending}
+              onClick={handleGoogleSignIn}
               variant="outline"
               size="lg"
               className="bg-slate-300 hover:bg-slate-400 hover:scale-110"
             >
-              <FcGoogle className="size-8 left-2.5 top-2.5" />
-            </Button>
-            <Button
-              disabled={false}
-              onClick={(e) => handleProvider(e,"github")}
-              variant="outline"
-              size="lg"
-              className="bg-slate-300 hover:bg-slate-400 hover:scale-110"
-            >
-              <FaGithub className="size-8 left-2.5 top-2.5" />
+              <FcGoogle className="mr-2" />
+              Continue with Google
             </Button>
           </div>
-          <p className="text-center text-sm mt-2 text-muted-foreground">
+          <p className="text-center text-sm mt-4">
             Already have an account?
-            <Link
-              className="text-sky-700 ml-4 hover:underline cursor-pointer"
-              href="sign-in"
-            >
-              Sing in{" "}
+            <Link href="/sign-in" className="text-sky-700 ml-2 hover:underline">
+              Sign in
             </Link>
           </p>
         </CardContent>

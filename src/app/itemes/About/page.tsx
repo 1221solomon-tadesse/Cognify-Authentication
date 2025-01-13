@@ -15,7 +15,7 @@ const AboutPage = () => {
         </header>
 
         <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Card 1 */}
+         
           <div className="bg-white shadow-lg rounded-lg p-6 hover:scale-105 transform transition duration-300">
             <h2 className="text-2xl font-semibold text-indigo-700 mb-3">
               Data Science
@@ -27,7 +27,7 @@ const AboutPage = () => {
             </p>
           </div>
 
-          {/* Card 2 */}
+          
           <div className="bg-white shadow-lg rounded-lg p-6 hover:scale-105 transform transition duration-300">
             <h2 className="text-2xl font-semibold text-indigo-700 mb-3">
               Machine Learning
@@ -38,7 +38,7 @@ const AboutPage = () => {
             </p>
           </div>
 
-          {/* Card 3 */}
+          
           <div className="bg-white shadow-lg rounded-lg p-6 hover:scale-105 transform transition duration-300">
             <h2 className="text-2xl font-semibold text-indigo-700 mb-3">
               Software Development
