@@ -1,9 +1,14 @@
-import React from "react";
+'use client';
+import React, { useState } from "react";
+import Data from "@/data/data";
 
-const AboutPage = () => {
+const AboutPage: React.FC = () => {
+  const [data] = useState(Data); // Initialize with imported Data
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-indigo-100 p-6">
       <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
         <header className="text-center mb-10">
           <h1 className="text-4xl md:text-6xl font-extrabold text-gray-800 mb-4">
             Welcome to{" "}
@@ -14,42 +19,22 @@ const AboutPage = () => {
           </p>
         </header>
 
+        {/* Categories Section */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
-         
-          <div className="bg-white shadow-lg rounded-lg p-6 hover:scale-105 transform transition duration-300">
-            <h2 className="text-2xl font-semibold text-indigo-700 mb-3">
-              Data Science
-            </h2>
-            <p className="text-gray-600">
-              Leverage data to uncover insights and drive decision-making. Our
-              data science solutions transform raw data into actionable
-              strategies.
-            </p>
-          </div>
-
-          
-          <div className="bg-white shadow-lg rounded-lg p-6 hover:scale-105 transform transition duration-300">
-            <h2 className="text-2xl font-semibold text-indigo-700 mb-3">
-              Machine Learning
-            </h2>
-            <p className="text-gray-600">
-              Harness the power of AI with our machine learning models, enabling
-              automation and smarter solutions for complex problems.
-            </p>
-          </div>
-
-          
-          <div className="bg-white shadow-lg rounded-lg p-6 hover:scale-105 transform transition duration-300">
-            <h2 className="text-2xl font-semibold text-indigo-700 mb-3">
-              Software Development
-            </h2>
-            <p className="text-gray-600">
-              Delivering cutting-edge software solutions tailored to your
-              business needs with a focus on quality and efficiency.
-            </p>
-          </div>
+          {data.map((item, index) => (
+            <div
+              key={index}
+              className="bg-white shadow-lg rounded-lg p-6 hover:scale-105 transform transition duration-300"
+            >
+              <h2 className="text-2xl font-semibold text-indigo-700 mb-3">
+                {item.course}
+              </h2>
+              <p className="text-gray-600">{item.description}</p>
+            </div>
+          ))}
         </section>
 
+        {/* Why Choose Us Section */}
         <section className="mt-16 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
             Why Choose Cognify Technology?
