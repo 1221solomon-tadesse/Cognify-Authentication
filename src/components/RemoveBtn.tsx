@@ -3,18 +3,29 @@
 import { HiOutlineTrash } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 
-export default function RemoveBtn({ id }) {
+interface RemoveBtnProps {
+  id: string;
+}
+
+export default function RemoveBtn({ id }: RemoveBtnProps) {
   const router = useRouter();
-  const removeTopic = async () => {
+
+  const removeTopic = async (): Promise<void> => {
     const confirmed = confirm("Are you sure?");
 
     if (confirmed) {
-      const res = await fetch(`http://localhost:3000/api/topics?id=${id}`, {
-        method: "DELETE",
-      });
+      try {
+        const res = await fetch(`http://localhost:3000/api/topics?id=${id}`, {
+          method: "DELETE",
+        });
 
-      if (res.ok) {
-        router.refresh();
+        if (res.ok) {
+          router.refresh();
+        } else {
+          throw new Error("Failed to delete the topic");
+        }
+      } catch (error) {
+        console.error(error);
       }
     }
   };

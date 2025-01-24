@@ -1,15 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
-export default function EditTopicForm({ id, title, description }) {
-  const [newTitle, setNewTitle] = useState(title);
-  const [newDescription, setNewDescription] = useState(description);
+interface EditTopicFormProps {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export default function EditTopicForm({
+  id,
+  title,
+  description,
+}: EditTopicFormProps) {
+  const [newTitle, setNewTitle] = useState<string>(title);
+  const [newDescription, setNewDescription] = useState<string>(description);
 
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -28,7 +38,7 @@ export default function EditTopicForm({ id, title, description }) {
       router.refresh();
       router.push("/");
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
