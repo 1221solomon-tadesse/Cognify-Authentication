@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 interface Category {
   _id: string;
-  name: string;
+  title: string;
   description: string;
 }
 
@@ -16,12 +16,12 @@ const CategoryComponent: React.FC = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("/api/categories");
+        const response = await fetch("/api/topics");
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
         }
-        const data: Category[] = await response.json();
-        setCategories(data);
+        const data = await response.json();
+        setCategories(data.topics); 
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -42,7 +42,6 @@ const CategoryComponent: React.FC = () => {
 
   return (
     <div className="p-6">
-
       <h1 className="text-2xl font-bold mb-4">Categories</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {categories.map((category) => (
@@ -50,7 +49,7 @@ const CategoryComponent: React.FC = () => {
             key={category._id}
             className="border p-4 rounded-md shadow-md hover:shadow-lg transition-shadow"
           >
-            <h2 className="text-xl font-semibold">{category.name}</h2>
+            <h2 className="text-xl font-semibold">{category.title}</h2>
             <p className="text-gray-600">{category.description}</p>
           </div>
         ))}

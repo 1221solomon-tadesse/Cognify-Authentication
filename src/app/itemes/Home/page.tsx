@@ -1,10 +1,9 @@
 import React from "react";
-
+import Link from "next/link";
 const HomePage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-teal-100 to-cyan-100 p-6">
       <div className="max-w-7xl mx-auto">
-
         <header className="text-center py-16">
           <h1 className="text-5xl md:text-7xl font-extrabold text-gray-800 mb-6">
             Welcome to <span className="text-cyan-600">Cognify Technology</span>
@@ -13,9 +12,11 @@ const HomePage = () => {
             Pioneering solutions in Data Science, Machine Learning, and Software
             Development to transform your vision into reality.
           </p>
-          <button className="mt-8 bg-cyan-600 text-white px-8 py-4 rounded-lg shadow-md hover:bg-cyan-700 transition duration-300">
-            Get Started
-          </button>
+          <Link href="/sign-in">
+            <button className="mt-8 bg-cyan-600 text-white px-8 py-4 rounded-lg shadow-md hover:bg-cyan-700 transition duration-300">
+              Get Started
+            </button>
+          </Link> 
         </header>
 
         <section className="py-16">
@@ -24,7 +25,6 @@ const HomePage = () => {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-           
             <div className="bg-white shadow-lg rounded-lg p-6 text-center hover:scale-105 transform transition duration-300">
               <h3 className="text-2xl font-semibold text-cyan-700 mb-4">
                 Data Science
@@ -35,7 +35,6 @@ const HomePage = () => {
               </p>
             </div>
 
-      
             <div className="bg-white shadow-lg rounded-lg p-6 text-center hover:scale-105 transform transition duration-300">
               <h3 className="text-2xl font-semibold text-cyan-700 mb-4">
                 Machine Learning
@@ -46,7 +45,6 @@ const HomePage = () => {
               </p>
             </div>
 
-        
             <div className="bg-white shadow-lg rounded-lg p-6 text-center hover:scale-105 transform transition duration-300">
               <h3 className="text-2xl font-semibold text-cyan-700 mb-4">
                 Software Development

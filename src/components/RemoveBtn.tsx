@@ -15,7 +15,7 @@ export default function RemoveBtn({ id }: RemoveBtnProps) {
 
     if (confirmed) {
       try {
-        const res = await fetch(`http://localhost:3000/api/topics?id=${id}`, {
+        const res = await fetch(`/api/topics?id=${id}`, {
           method: "DELETE",
         });
 
