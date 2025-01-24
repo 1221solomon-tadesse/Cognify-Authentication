@@ -76,7 +76,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="h-full flex items-center justify-center">
+    <div className="h-full flex items-center justify-center mt-10">
       <Card className="md:h-auto w-[80%] sm:w-[420px] p-4 sm:p-8 bg-violet-600">
         <CardHeader>
           <CardTitle className="text-center">Sign up</CardTitle>

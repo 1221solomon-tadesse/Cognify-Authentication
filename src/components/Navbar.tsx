@@ -1,5 +1,4 @@
 "use client";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -59,12 +58,12 @@ const Navbar = ({ isLoggedIn }) => {
           </svg>
         </button>
 
-        {/* Logo */}
+        
         <div className="text-2xl font-bold">
           <Link href="/">Cognify</Link>
         </div>
 
-        {/* Desktop Links */}
+      
         <div className="hidden md:flex gap-6 items-center">
           <Link href="/" className="hover:underline">
             Home
@@ -141,7 +140,7 @@ const Navbar = ({ isLoggedIn }) => {
           </Link>
           {isUserLoggedIn && (
             <Link
-              href="/itemes/Cources"
+              href="/itemes/Catagory"
               className="hover:underline"
               onClick={() => setSidebarOpen(false)}
             >
