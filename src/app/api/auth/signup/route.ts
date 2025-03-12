@@ -3,17 +3,14 @@ import { NextResponse } from 'next/server'
 import User from '@/models/user'
 import connectToDatabase from '@/lib/mongodb';
 export async function POST(request: Request) {
-    const { name, email, password, confirmPassword } = await request.json();
-
+     const { name, email, password, confirmPassword } = await request.json();
     const isValidEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
     if (!name || !email || !password || !confirmPassword) {
         return NextResponse.json({message: " All fields are required"}, {status:400})
-    }
-
-    if (!isValidEmail(email)) {
+    }  if (!isValidEmail(email)) {
         return NextResponse.json({ message: "Invalid email format" }, { status: 400 });
     }
     if (confirmPassword !== password) {

@@ -1,13 +1,10 @@
 "use client";
-
 import { useEffect, useState } from "react";
-
 interface Category {
   _id: string;
   title: string;
   description: string;
 }
-
 const CategoryComponent: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
