@@ -12,11 +12,12 @@ import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
+
 interface Props {
   isLoggedIn: boolean;
 }
 
-const Navbar:React.FC<Props> = ({ isLoggedIn }) => {
+const Navbar: React.FC<Props> = ({ isLoggedIn }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -24,14 +25,13 @@ const Navbar:React.FC<Props> = ({ isLoggedIn }) => {
   const handleSignOut = async () => {
     try {
       await signOut({ redirect: false });
-      router.push("/");
     } catch (error) {
       console.error("Sign-out error:", error);
-      router.push("/");
     }
+    router.push("/");
   };
 
-  const avatarFallback = session?.user?.name?.charAt(0).toUpperCase();
+  const avatarFallback = session?.user?.name?.charAt(0).toUpperCase() || "U";
   const isUserLoggedIn = isLoggedIn || Boolean(session);
 
   return (
@@ -61,12 +61,11 @@ const Navbar:React.FC<Props> = ({ isLoggedIn }) => {
           </svg>
         </button>
 
-        
         <div className="text-2xl font-bold">
           <Link href="/">Cognify</Link>
         </div>
 
-      
+        {/* Desktop Navbar */}
         <div className="hidden md:flex gap-6 items-center">
           <Link href="/" className="hover:underline">
             Home
@@ -89,10 +88,10 @@ const Navbar:React.FC<Props> = ({ isLoggedIn }) => {
                   <Avatar className="h-8 w-8 hover:opacity-75 transition">
                     <AvatarImage
                       src={session?.user?.image || undefined}
-                      alt={session?.user?.name || "User"}
+                      alt="User"
                     />
                     <AvatarFallback className="bg-sky-900 text-white">
-                      {avatarFallback || "U"}
+                      {avatarFallback}
                     </AvatarFallback>
                   </Avatar>
                 </div>
@@ -110,10 +109,10 @@ const Navbar:React.FC<Props> = ({ isLoggedIn }) => {
           ) : (
             <>
               <Link href="/sign-in">
-                <Button variant="primary">Sign in</Button>
+                <Button>Sign in</Button>
               </Link>
               <Link href="/sign-up">
-                <Button variant="secondary">Sign up</Button>
+                <Button variant="default">Sign up</Button>
               </Link>
             </>
           )}
@@ -143,7 +142,7 @@ const Navbar:React.FC<Props> = ({ isLoggedIn }) => {
           </Link>
           {isUserLoggedIn && (
             <Link
-              href="/itemes/Catagory"
+              href="/itemes/Cources"
               className="hover:underline"
               onClick={() => setSidebarOpen(false)}
             >
@@ -155,10 +154,7 @@ const Navbar:React.FC<Props> = ({ isLoggedIn }) => {
           ) : isUserLoggedIn ? (
             <button
               className="hover:underline text-left"
-              onClick={() => {
-                setSidebarOpen(false);
-                handleSignOut();
-              }}
+              onClick={handleSignOut}
             >
               Log out
             </button>
@@ -166,15 +162,15 @@ const Navbar:React.FC<Props> = ({ isLoggedIn }) => {
             <>
               <Link
                 href="/sign-in"
-                onClick={() => setSidebarOpen(false)}
                 className="hover:underline"
+                onClick={() => setSidebarOpen(false)}
               >
                 Sign in
               </Link>
               <Link
                 href="/sign-up"
-                onClick={() => setSidebarOpen(false)}
                 className="hover:underline"
+                onClick={() => setSidebarOpen(false)}
               >
                 Sign up
               </Link>
