@@ -12,8 +12,11 @@ import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
+interface Props {
+  isLoggedIn: boolean;
+}
 
-const Navbar = ({ isLoggedIn }) => {
+const Navbar:React.FC<Props> = ({ isLoggedIn }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
